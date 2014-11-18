@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+        <title>nunjucks tests</title>
+        <script type="text/javascript" src="nunjucks.min.js"></script>
+        <script type="text/javascript" src="sizzle.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container" myAttr="nada" ></div>
+        <div class="otro"></div>
+
+        <script>
+            nunjucks.configure('views', { autoescape: true });
+            var renderedView1 = nunjucks.renderString('Hello {{ username }}', { username: 'James' });
+
+            var results = {};
+            var dom = Sizzle( '.container' , document, results );
+            var dato = dom[0].attributes.getNamedItem('myAttr');
+
+            dom[0].innerHTML = renderedView1;
+
+            console.log( dom );
+            console.log( dato.value );
+            console.log(results);
+
+            //--------------------------
+            var renderedView2 = nunjucks.render('button.html', { name: 'sig in' });
+
+            dom = Sizzle( '.otro' );
+            dom[0].innerHTML = renderedView2;
+
+        </script>
+    </body>
+
+</html>
